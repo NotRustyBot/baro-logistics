@@ -62,24 +62,24 @@ function fabricate(item: ItemDetail, limit?: Set<string>): Array<Array<ItemDetai
     return result;
 }
 
-function fabricatableTrash(items: Set<string>) {
+function fabricatableTrash(items: Set<string>, sourceItems: Set<string>) {
     let canUse = false;
     for (const item of details) {
         if (item.fabricator.length == 0) continue;
         for (const is of item.fabricator) {
             for (const i of is) {
-                if (items.has(i.item)) {
+                if (sourceItems.has(i.item)) {
                     canUse = true;
                     break;
                 }
             }
-            if(canUse) break;
+            if (canUse) break;
         }
 
-        if(!canUse) continue;
+        if (!canUse) continue;
         for (const is of item.fabricator) {
             for (const i of is) {
-                items.add(i.item)
+                items.add(i.item);
             }
         }
     }
@@ -126,7 +126,7 @@ function identifyAllTrash(trash: Iterable<string>) {
                 console.log(item);
             }
         }*/
-        fabricatableTrash(allTrash);
+        fabricatableTrash(new Set(trash),allTrash );
     } while (lastSize != allTrash.size);
     return allTrash;
 }
