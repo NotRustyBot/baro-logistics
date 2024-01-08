@@ -63,26 +63,24 @@ function fabricate(item: ItemDetail, limit?: Set<string>): Array<Array<ItemDetai
 }
 
 function fabricatableTrash(items: Set<string>) {
+    let canUse = false;
     for (const item of details) {
-        let canFab = true;
         if (item.fabricator.length == 0) continue;
         for (const is of item.fabricator) {
-            let canFabricateStep = false;
             for (const i of is) {
-                items.add(i.item); // add comps
                 if (items.has(i.item)) {
-                    canFabricateStep = true;
+                    canUse = true;
                     break;
                 }
             }
-            if (!canFabricateStep) {
-                canFab = false;
-                break;
-            }
+            if(canUse) break;
         }
 
-        if (canFab) {
-            if (item.item) items.add(item.item);
+        if(!canUse) continue;
+        for (const is of item.fabricator) {
+            for (const i of is) {
+                items.add(i.item)
+            }
         }
     }
 }
