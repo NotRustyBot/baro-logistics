@@ -79,3 +79,7 @@ img {
 }
 
 
+.trash-options > .trash{
+    margin: 5px;
+    border: #555 2px solid;
+}
