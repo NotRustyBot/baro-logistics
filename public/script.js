@@ -111,7 +111,7 @@ function identifyAllTrash(trash) {
     do {
         lastSize = allTrash.size;
         /*
-        for (const item of allTrash) {
+        for (const item of trash) {
             if (detailLookup.get(item)) {
                 deconstruct(detailLookup.get(item), allTrash);
             } else {
@@ -129,7 +129,8 @@ function recursiveTrash(item, specifiedItems, parent, allTrash) {
     const img = document.createElement("img");
     img.setAttribute("src", "https://barotraumagame.com" + item.image);
     elm.appendChild(img);
-    const text = document.createElement("span");
+    const text = document.createElement("a");
+    text.setAttribute("href", "https://barotraumagame.com" + item.item);
     elm.appendChild(text);
     text.innerText = item.name;
     if ("quantity" in item) {
