@@ -110,14 +110,14 @@ function identifyAllTrash(trash) {
     let lastSize = allTrash.size;
     do {
         lastSize = allTrash.size;
+        /*
         for (const item of allTrash) {
             if (detailLookup.get(item)) {
                 deconstruct(detailLookup.get(item), allTrash);
-            }
-            else {
+            } else {
                 console.log(item);
             }
-        }
+        }*/
         fabricatableTrash(allTrash);
     } while (lastSize != allTrash.size);
     return allTrash;
