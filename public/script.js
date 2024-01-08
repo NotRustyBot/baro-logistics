@@ -57,8 +57,8 @@ function fabricate(item, limit) {
     return result;
 }
 function fabricatableTrash(items, sourceItems) {
-    let canUse = false;
     for (const item of details) {
+        let canUse = false;
         if (item.fabricator.length == 0)
             continue;
         for (const is of item.fabricator) {
@@ -73,6 +73,7 @@ function fabricatableTrash(items, sourceItems) {
         }
         if (!canUse)
             continue;
+        items.add(item.item);
         for (const is of item.fabricator) {
             for (const i of is) {
                 items.add(i.item);
@@ -117,7 +118,7 @@ function identifyAllTrash(trash) {
                 console.log(item);
             }
         }*/
-        fabricatableTrash(new Set(trash), allTrash);
+        fabricatableTrash(allTrash, new Set(trash));
     } while (lastSize != allTrash.size);
     return allTrash;
 }

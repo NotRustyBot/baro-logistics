@@ -63,8 +63,8 @@ function fabricate(item: ItemDetail, limit?: Set<string>): Array<Array<ItemDetai
 }
 
 function fabricatableTrash(items: Set<string>, sourceItems: Set<string>) {
-    let canUse = false;
     for (const item of details) {
+        let canUse = false;
         if (item.fabricator.length == 0) continue;
         for (const is of item.fabricator) {
             for (const i of is) {
@@ -77,6 +77,7 @@ function fabricatableTrash(items: Set<string>, sourceItems: Set<string>) {
         }
 
         if (!canUse) continue;
+        items.add(item.item)
         for (const is of item.fabricator) {
             for (const i of is) {
                 items.add(i.item);
@@ -126,7 +127,7 @@ function identifyAllTrash(trash: Iterable<string>) {
                 console.log(item);
             }
         }*/
-        fabricatableTrash(new Set(trash),allTrash );
+        fabricatableTrash(allTrash, new Set(trash));
     } while (lastSize != allTrash.size);
     return allTrash;
 }
