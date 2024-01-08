@@ -69,6 +69,7 @@ function fabricatableTrash(items: Set<string>) {
         for (const is of item.fabricator) {
             let canFabricateStep = false;
             for (const i of is) {
+                items.add(i.item); // add comps
                 if (items.has(i.item)) {
                     canFabricateStep = true;
                     break;
@@ -80,7 +81,7 @@ function fabricatableTrash(items: Set<string>) {
             }
         }
 
-        if (canFab || true) {
+        if (canFab) {
             if (item.item) items.add(item.item);
         }
     }
