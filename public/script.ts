@@ -80,7 +80,7 @@ function fabricatableTrash(items: Set<string>) {
             }
         }
 
-        if (canFab) {
+        if (canFab || true) {
             if (item.item) items.add(item.item);
         }
     }
@@ -148,7 +148,7 @@ function recursiveTrash(item: ItemDetail & { quantity?: number }, specifiedItems
     }
 
     parent.appendChild(elm);
-    //if (specifiedItems.has(item.name)) return;
+    if (specifiedItems.has(item.name)) return;
     const price = document.createElement("span");
     price.classList.add("price");
     let cPrice = 0;
