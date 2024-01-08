@@ -1,0 +1,81 @@
+body {
+    background-color: #011;
+    color: #ccc;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.component {
+    border: 1px solid black;
+    margin: 2px;
+    margin-left: 10px;
+    max-width: 500px;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 2px;
+    background-color: #1003;
+    align-items: center;
+}
+
+.trash {
+    border: 1px solid black;
+    margin: 2px;
+    margin-left: 10px;
+    max-width: 500px;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 2px;
+    background-color: #1003;
+    align-items: center;
+}
+
+.price {
+    padding-left: 10px;
+    color: #9c9;
+}
+
+.price.bad {
+    color: #f55;
+}
+
+.price.good {
+    color: #5f5;
+}
+
+.trash-options {
+    flex-direction: row;
+    flex-wrap: wrap;
+    display: flex;
+}
+.trash-click, .trash-items {
+    display: flex;
+    background-color:black;
+    height: 60px;
+    overflow: hidden;
+}
+.trashcl{
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    cursor: pointer;
+}
+
+input[type="text"]{
+    background-color: #333;
+    color: #cfc;
+    border: none;
+    outline: none;
+    font-size: 24px;
+}
+
+img {
+    flex-shrink: 0;
+    margin: 2px;
+}
+
+

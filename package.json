@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@types/node": "^20.10.6",
+    "axios": "^1.6.5",
+    "cheerio": "^1.0.0-rc.12",
+    "node-html-to-image": "^4.0.0",
+    "puppeteer": "^21.7.0",
+    "ts-node": "^10.9.2"
+  }
+}
