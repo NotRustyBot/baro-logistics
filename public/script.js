@@ -64,6 +64,7 @@ function fabricatableTrash(items) {
         for (const is of item.fabricator) {
             let canFabricateStep = false;
             for (const i of is) {
+                items.add(i.item); // add comps
                 if (items.has(i.item)) {
                     canFabricateStep = true;
                     break;
@@ -138,7 +139,8 @@ function recursiveTrash(item, specifiedItems, parent, allTrash) {
         item.quantity = 1;
     }
     parent.appendChild(elm);
-    //if (specifiedItems.has(item.name)) return;
+    if (specifiedItems.has(item.name))
+        return;
     const price = document.createElement("span");
     price.classList.add("price");
     let cPrice = 0;
