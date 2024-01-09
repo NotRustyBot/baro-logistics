@@ -67,7 +67,7 @@ function fabricatableTrash(items: Set<string>, sourceItems: Set<string>) {
         let canUse = false;
 
         if (item.fabricator.length == 0) continue;
-        if (sourceItems.has(item.item)) {
+        if (sourceItems.has(item.item) || items.has(item.item)) {
             canUse = true;
         } else {
             for (const is of item.fabricator) {
@@ -89,6 +89,23 @@ function fabricatableTrash(items: Set<string>, sourceItems: Set<string>) {
             }
         }
     }
+}
+
+function isRelevant(item: ItemDetail, sourceItems: Set<string>) {
+    let isRelevant = false;
+    if (sourceItems.has(item.item)) {
+        return true;
+    }
+    for (const is of item.fabricator) {
+        for (const i of is) {
+            if (sourceItems.has(i.item)) {
+                isRelevant = true;
+                break;
+            }
+        }
+        if (isRelevant) break;
+    }
+    return isRelevant;
 }
 
 function createPartial(item: ItemDetail) {
@@ -271,7 +288,7 @@ function updateTrashSource() {
     const tr = identifyAllTrash(trashSource);
 
     for (const t of tr) {
-        if (t) recursiveTrash(detailLookup.get(t), trashSource, optionsParent, tr);
+        if (t && isRelevant(detailLookup.get(t), trashSource)) recursiveTrash(detailLookup.get(t), trashSource, optionsParent, tr);
     }
 }
 
