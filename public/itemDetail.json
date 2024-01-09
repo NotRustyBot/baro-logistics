@@ -1259,7 +1259,7 @@
         "image": "/baro-wiki/images/thumb/e/e1/Bandit_Outfit_1.png/30px-Bandit_Outfit_1.png",
         "item": "/wiki/Bandit_Outfits",
         "name": "Bandit Outfits",
-        "price": 150150,
+        "price": 150,
         "quantity": 1
     },
     {
@@ -1277,7 +1277,7 @@
         "image": "/baro-wiki/images/thumb/4/4e/Outpost_Dweller%27s_Attire_1.png/30px-Outpost_Dweller%27s_Attire_1.png",
         "item": "/wiki/Outpost_Dweller%27s_Outfit",
         "name": "Outpost Dweller's Outfit",
-        "price": 150150150150150,
+        "price": 150,
         "quantity": 1
     },
     {
@@ -1340,7 +1340,7 @@
         "image": "/baro-wiki/images/thumb/f/fa/VIP_Outfit.png/30px-VIP_Outfit.png",
         "item": "/wiki/VIP_Outfits",
         "name": "VIP Outfits",
-        "price": 150150150,
+        "price": 150,
         "quantity": 1
     },
     {
@@ -4164,7 +4164,7 @@
         "image": "/baro-wiki/images/b/bd/Light_Component.png",
         "item": "/wiki/Light_Component",
         "name": "Light Component",
-        "price": 110110110,
+        "price": 110,
         "quantity": 1
     },
     {
@@ -4187,7 +4187,7 @@
         "image": "/baro-wiki/images/thumb/7/77/Wire.png/30px-Wire.png",
         "item": "/wiki/Wires",
         "name": "Wires",
-        "price": 10101010101010,
+        "price": 10,
         "quantity": 5
     },
     {
@@ -4262,7 +4262,7 @@
         "image": "/baro-wiki/images/thumb/b/b7/Psychosis_Alien_Artifact.png/24px-Psychosis_Alien_Artifact.png",
         "item": "/wiki/Psychosis_Alien_Artifact",
         "name": "Psychosis Alien Artifact",
-        "price": 20002000,
+        "price": 2000,
         "quantity": 1
     },
     {

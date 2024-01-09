@@ -10,7 +10,7 @@ async function getItemDetail(overview: ItemOverview) {
     const $ = load(html);
 
     result.name = $("span.mw-page-title-main").text();
-    result.price = parseInt($('table.infobox td:contains("Base")').siblings("td").find("b").text());
+    result.price = parseInt($('table.infobox td:contains("Base")').siblings("td").find("b").first().text());
     let fabricator: Array<ItemStack> = [];
     const qmatch = $('table.infobox td:contains("Fabricator")').text().match(/(\d+)/);
     if (qmatch) result.quantity = parseInt(qmatch[0]);
