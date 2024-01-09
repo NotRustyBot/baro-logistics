@@ -1,12 +1,11 @@
 import fs from "fs";
 import { Cheerio, CheerioAPI, Element, load } from "cheerio";
-type ItemOverview = { item: string; image: string };
 type ItemStack = { item: string; quantity: number };
 type ItemDetail = { item: string; name: string; image: string; price: number; fabricator: Array<Array<ItemStack>>; deconstructor: Array<ItemStack>; quantity: number };
 
-async function getItemDetail(overview: ItemOverview) {
-    const result: ItemDetail = { deconstructor: [], fabricator: [], image: overview.image, item: overview.item, name: "", price: 0, quantity: 1 };
-    const html = await (await fetch("https://barotraumagame.com" + overview.item)).text();
+async function getItemDetail(itemUrl: string) {
+    const result: ItemDetail = { deconstructor: [], fabricator: [], image: "", item: itemUrl, name: "", price: 0, quantity: 1 };
+    const html = await (await fetch("https://barotraumagame.com" + itemUrl)).text();
     const $ = load(html);
 
     result.name = $("span.mw-page-title-main").text();
@@ -14,6 +13,7 @@ async function getItemDetail(overview: ItemOverview) {
     let fabricator: Array<ItemStack> = [];
     const qmatch = $('table.infobox td:contains("Fabricator")').text().match(/(\d+)/);
     if (qmatch) result.quantity = parseInt(qmatch[0]);
+    result.image = $('table.infobox img').first().attr("src") ?? "";
     $('table.infobox td:contains("Fabricator")')
         .siblings("td")
         .find("div:last")
@@ -69,7 +69,7 @@ async function getItemDetail(overview: ItemOverview) {
 
 async function start() {
     const out: Array<ItemDetail> = [];
-    const list = JSON.parse(fs.readFileSync("itemList.json", "utf-8")) as Array<ItemOverview>;
+    const list = JSON.parse(fs.readFileSync("itemList.json", "utf-8")) as Array<string>;
     let progress = 0;
     for (const io of list) {
         progress++;

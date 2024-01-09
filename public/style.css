@@ -73,6 +73,9 @@ input[type="text"] {
 img {
     flex-shrink: 0;
     margin: 2px;
+    max-width: 30px;
+    max-height: 30px;
+    height: auto;
 }
 
 .trash-options > .trash {
@@ -85,8 +88,19 @@ img {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    border-left: #420 5px solid;
+    border-left: #420 30px solid;
     margin-top: 5px;
+}
+
+.or{
+    position: relative;
+}
+.or::after {
+    position: absolute;
+    left: -28px;
+    bottom: 50%;
+    transform: translate(0, 50%);
+    content: 'OR';
 }
 
 a {

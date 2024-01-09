@@ -186,6 +186,8 @@ function recursiveTrash(item: ItemDetail & { count?: number }, specifiedItems: S
         elm.appendChild(opt);
         if (comps.length == 1) {
             opt.style.borderLeft = "none";
+        } else {
+            opt.classList.add("or");
         }
         for (const comp of comps) {
             tpr = Math.min((comp.price * comp.count) / comp.quantity, tpr);
