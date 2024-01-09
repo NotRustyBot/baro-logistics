@@ -152,6 +152,9 @@ function recursiveTrash(item, specifiedItems, parent, allTrash) {
         const opt = document.createElement("div");
         opt.classList.add("trash-option-craft");
         elm.appendChild(opt);
+        if (comps.length == 1) {
+            opt.style.borderLeft = "none";
+        }
         for (const comp of comps) {
             tpr = Math.min((comp.price * comp.count) / comp.quantity, tpr);
             tgain = Math.max((recursiveTrash(comp, specifiedItems, opt, allTrash) * comp.count) / comp.quantity, tgain);
