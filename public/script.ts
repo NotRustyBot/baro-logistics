@@ -157,14 +157,17 @@ function identifyAllTrash(trash: Iterable<string>) {
 function recursiveTrash(item: ItemDetail & { count?: number }, specifiedItems: Set<string>, parent: Element, allTrash: Set<string>) {
     const compOpts = fabricate(item, allTrash);
     const elm = document.createElement("div");
+    const container = document.createElement("div");
+    elm.appendChild(container);
+
     elm.classList.add("trash");
     const img = document.createElement("img");
     img.setAttribute("src", "https://barotraumagame.com" + item.image);
-    elm.appendChild(img);
+    container.appendChild(img);
     const text = document.createElement("a");
     text.setAttribute("href", "https://barotraumagame.com" + item.item);
     text.setAttribute("target", "_blank");
-    elm.appendChild(text);
+    container.appendChild(text);
     text.innerText = item.name;
     if ("count" in item == false) {
         item.count = item.quantity;
@@ -177,7 +180,7 @@ function recursiveTrash(item: ItemDetail & { count?: number }, specifiedItems: S
     price.classList.add("price");
     let cPrice = 0;
     let totalGain = 0;
-    elm.appendChild(price);
+    container.appendChild(price);
     for (const comps of compOpts) {
         let tpr = Infinity;
         let tgain = 0;
