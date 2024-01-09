@@ -61,19 +61,25 @@ function fabricatableTrash(items, sourceItems) {
         let canUse = false;
         if (item.fabricator.length == 0)
             continue;
-        for (const is of item.fabricator) {
-            for (const i of is) {
-                if (sourceItems.has(i.item)) {
-                    canUse = true;
-                    break;
+        if (sourceItems.has(item.item)) {
+            canUse = true;
+        }
+        else {
+            for (const is of item.fabricator) {
+                for (const i of is) {
+                    if (sourceItems.has(i.item)) {
+                        canUse = true;
+                        break;
+                    }
                 }
+                if (canUse)
+                    break;
             }
-            if (canUse)
-                break;
         }
         if (!canUse)
             continue;
         items.add(item.item);
+        console.log(item.fabricator);
         for (const is of item.fabricator) {
             for (const i of is) {
                 items.add(i.item);
