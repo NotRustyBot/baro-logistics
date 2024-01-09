@@ -1,5 +1,5 @@
 type ItemStack = { item: string; quantity: number };
-type ItemDetail = { item: string; name: string; image: string; price: number; fabricator: Array<Array<ItemStack>>; deconstructor: Array<ItemStack> };
+type ItemDetail = { item: string; name: string; image: string; price: number; fabricator: Array<Array<ItemStack>>; deconstructor: Array<ItemStack>; quantity };
 
 let details: Array<ItemDetail> = [];
 let detailLookup = new Map<string, ItemDetail>();
@@ -46,15 +46,15 @@ function recursiveFabrication(item: ItemDetail, set?: Set<string>): Set<string> 
     return set;
 }
 
-function fabricate(item: ItemDetail, limit?: Set<string>): Array<Array<ItemDetail & { quantity: number }>> {
-    const result = new Array<Array<ItemDetail & { quantity: number }>>();
+function fabricate(item: ItemDetail, limit?: Set<string>): Array<Array<ItemDetail & { count: number }>> {
+    const result = new Array<Array<ItemDetail & { count: number }>>();
     for (const is of item.fabricator) {
-        const current: Array<ItemDetail & { quantity: number }> = [];
+        const current: Array<ItemDetail & { count: number }> = [];
 
         for (const i of is) {
             const it = detailLookup.get(i.item);
             if (limit && !limit.has(i.item)) continue;
-            if (it) current.push({ ...it, quantity: i.quantity });
+            if (it) current.push({ ...it, count: i.quantity });
         }
         if (current.length > 0) result.push(current);
     }
@@ -77,7 +77,7 @@ function fabricatableTrash(items: Set<string>, sourceItems: Set<string>) {
         }
 
         if (!canUse) continue;
-        items.add(item.item)
+        items.add(item.item);
         for (const is of item.fabricator) {
             for (const i of is) {
                 items.add(i.item);
@@ -132,7 +132,7 @@ function identifyAllTrash(trash: Iterable<string>) {
     return allTrash;
 }
 
-function recursiveTrash(item: ItemDetail & { quantity?: number }, specifiedItems: Set<string>, parent: Element, allTrash: Set<string>) {
+function recursiveTrash(item: ItemDetail & { count?: number }, specifiedItems: Set<string>, parent: Element, allTrash: Set<string>) {
     const compOpts = fabricate(item, allTrash);
     const elm = document.createElement("div");
     elm.classList.add("trash");
@@ -140,14 +140,14 @@ function recursiveTrash(item: ItemDetail & { quantity?: number }, specifiedItems
     img.setAttribute("src", "https://barotraumagame.com" + item.image);
     elm.appendChild(img);
     const text = document.createElement("a");
-    text.setAttribute("href","https://barotraumagame.com" + item.item );
+    text.setAttribute("href", "https://barotraumagame.com" + item.item);
+    text.setAttribute("target", "_blank");
     elm.appendChild(text);
     text.innerText = item.name;
-    if ("quantity" in item) {
-        text.innerText = item.name + " x" + item.quantity;
-    } else {
-        item.quantity = 1;
+    if ("count" in item == false) {
+        item.count = item.quantity;
     }
+    text.innerText = item.name + " x" + item.count;
 
     parent.appendChild(elm);
     if (specifiedItems.has(item.name)) return;
@@ -159,15 +159,19 @@ function recursiveTrash(item: ItemDetail & { quantity?: number }, specifiedItems
     for (const comps of compOpts) {
         let tpr = Infinity;
         let tgain = 0;
+        const opt = document.createElement("div");
+        opt.classList.add("trash-option-craft");
+        elm.appendChild(opt);
+
         for (const comp of comps) {
-            tpr = Math.min(comp.price * comp.quantity, tpr);
-            tgain = Math.max(recursiveTrash(comp, specifiedItems, elm, allTrash) * comp.quantity, tgain);
+            tpr = Math.min((comp.price * comp.count) / comp.quantity, tpr);
+            tgain = Math.max((recursiveTrash(comp, specifiedItems, opt, allTrash) * comp.count) / comp.quantity, tgain);
         }
         cPrice += tpr;
         totalGain += tgain;
     }
-    price.innerText = (item.price - cPrice) * item.quantity + "mk";
-    if (item.price - cPrice < 0) {
+    price.innerText = item.price * item.quantity - cPrice + "mk";
+    if (item.price * item.quantity - cPrice < 0) {
         price.classList.add("bad");
     } else if (compOpts.length > 0) {
         price.classList.add("good");
@@ -175,9 +179,9 @@ function recursiveTrash(item: ItemDetail & { quantity?: number }, specifiedItems
     }
 
     if (compOpts.length > 0) {
-        if (totalGain != 0) price.innerText += ` (${(item.price - cPrice + totalGain) * item.quantity}mk)`;
-        elm.style.order = "" + (10000 - (item.price - cPrice + totalGain));
-        return item.price - cPrice + totalGain;
+        if (totalGain != 0) price.innerText += ` (${item.price * item.quantity - cPrice + totalGain}mk)`;
+        elm.style.order = "" + (10000 - (item.price * item.quantity - cPrice + totalGain));
+        return item.price * item.quantity - cPrice + totalGain;
     } else {
         elm.style.order = "" + 10000;
         return 0;

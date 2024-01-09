@@ -49,7 +49,7 @@ function fabricate(item, limit) {
             if (limit && !limit.has(i.item))
                 continue;
             if (it)
-                current.push(Object.assign(Object.assign({}, it), { quantity: i.quantity }));
+                current.push(Object.assign(Object.assign({}, it), { count: i.quantity }));
         }
         if (current.length > 0)
             result.push(current);
@@ -131,14 +131,13 @@ function recursiveTrash(item, specifiedItems, parent, allTrash) {
     elm.appendChild(img);
     const text = document.createElement("a");
     text.setAttribute("href", "https://barotraumagame.com" + item.item);
+    text.setAttribute("target", "_blank");
     elm.appendChild(text);
     text.innerText = item.name;
-    if ("quantity" in item) {
-        text.innerText = item.name + " x" + item.quantity;
+    if ("count" in item == false) {
+        item.count = item.quantity;
     }
-    else {
-        item.quantity = 1;
-    }
+    text.innerText = item.name + " x" + item.count;
     parent.appendChild(elm);
     if (specifiedItems.has(item.name))
         return;
@@ -150,15 +149,18 @@ function recursiveTrash(item, specifiedItems, parent, allTrash) {
     for (const comps of compOpts) {
         let tpr = Infinity;
         let tgain = 0;
+        const opt = document.createElement("div");
+        opt.classList.add("trash-option-craft");
+        elm.appendChild(opt);
         for (const comp of comps) {
-            tpr = Math.min(comp.price * comp.quantity, tpr);
-            tgain = Math.max(recursiveTrash(comp, specifiedItems, elm, allTrash) * comp.quantity, tgain);
+            tpr = Math.min((comp.price * comp.count) / comp.quantity, tpr);
+            tgain = Math.max((recursiveTrash(comp, specifiedItems, opt, allTrash) * comp.count) / comp.quantity, tgain);
         }
         cPrice += tpr;
         totalGain += tgain;
     }
-    price.innerText = (item.price - cPrice) * item.quantity + "mk";
-    if (item.price - cPrice < 0) {
+    price.innerText = item.price * item.quantity - cPrice + "mk";
+    if (item.price * item.quantity - cPrice < 0) {
         price.classList.add("bad");
     }
     else if (compOpts.length > 0) {
@@ -167,9 +169,9 @@ function recursiveTrash(item, specifiedItems, parent, allTrash) {
     }
     if (compOpts.length > 0) {
         if (totalGain != 0)
-            price.innerText += ` (${(item.price - cPrice + totalGain) * item.quantity}mk)`;
-        elm.style.order = "" + (10000 - (item.price - cPrice + totalGain));
-        return item.price - cPrice + totalGain;
+            price.innerText += ` (${item.price * item.quantity - cPrice + totalGain}mk)`;
+        elm.style.order = "" + (10000 - (item.price * item.quantity - cPrice + totalGain));
+        return item.price * item.quantity - cPrice + totalGain;
     }
     else {
         elm.style.order = "" + 10000;

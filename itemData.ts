@@ -2,17 +2,18 @@ import fs from "fs";
 import { Cheerio, CheerioAPI, Element, load } from "cheerio";
 type ItemOverview = { item: string; image: string };
 type ItemStack = { item: string; quantity: number };
-type ItemDetail = { item: string; name: string; image: string; price: number; fabricator: Array<Array<ItemStack>>; deconstructor: Array<ItemStack> };
+type ItemDetail = { item: string; name: string; image: string; price: number; fabricator: Array<Array<ItemStack>>; deconstructor: Array<ItemStack>; quantity: number };
 
 async function getItemDetail(overview: ItemOverview) {
-    const result: ItemDetail = { deconstructor: [], fabricator: [], image: overview.image, item: overview.item, name: "", price: 0 };
+    const result: ItemDetail = { deconstructor: [], fabricator: [], image: overview.image, item: overview.item, name: "", price: 0, quantity: 1 };
     const html = await (await fetch("https://barotraumagame.com" + overview.item)).text();
     const $ = load(html);
 
     result.name = $("span.mw-page-title-main").text();
     result.price = parseInt($('table.infobox td:contains("Base")').siblings("td").find("b").text());
     let fabricator: Array<ItemStack> = [];
-
+    const qmatch = $('table.infobox td:contains("Fabricator")').text().match(/(\d+)/);
+    if (qmatch) result.quantity = parseInt(qmatch[0]);
     $('table.infobox td:contains("Fabricator")')
         .siblings("td")
         .find("div:last")

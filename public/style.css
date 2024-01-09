@@ -23,13 +23,9 @@ body {
     margin: 2px;
     margin-left: 10px;
     max-width: 500px;
-    flex-direction: row;
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
+    width: -webkit-fill-available;
     padding: 2px;
     background-color: #1003;
-    align-items: center;
 }
 
 .price {
@@ -50,13 +46,14 @@ body {
     flex-wrap: wrap;
     display: flex;
 }
-.trash-click, .trash-items {
+.trash-click,
+.trash-items {
     display: flex;
-    background-color:black;
+    background-color: black;
     height: 60px;
     overflow: hidden;
 }
-.trashcl{
+.trashcl {
     margin: 5px;
     display: flex;
     align-items: center;
@@ -65,7 +62,7 @@ body {
     cursor: pointer;
 }
 
-input[type="text"]{
+input[type="text"] {
     background-color: #333;
     color: #cfc;
     border: none;
@@ -78,10 +75,18 @@ img {
     margin: 2px;
 }
 
-
-.trash-options > .trash{
+.trash-options > .trash {
     margin: 5px;
     border: #555 2px solid;
+}
+
+.trash-option-craft {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    border-left: #420 5px solid;
+    margin-top: 5px;
 }
 
 a {
