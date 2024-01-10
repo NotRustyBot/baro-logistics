@@ -67,7 +67,7 @@ function fabricatableTrash(items, sourceItems) {
         else {
             for (const is of item.fabricator) {
                 for (const i of is) {
-                    if (sourceItems.has(i.item)) {
+                    if (sourceItems.has(i.item) || items.has(i.item)) {
                         canUse = true;
                         break;
                     }
@@ -87,21 +87,23 @@ function fabricatableTrash(items, sourceItems) {
     }
 }
 function isRelevant(item, sourceItems) {
-    let isRelevant = false;
+    if (item == undefined)
+        return false;
+    let isItemRelevant = false;
     if (sourceItems.has(item.item)) {
         return true;
     }
     for (const is of item.fabricator) {
         for (const i of is) {
-            if (sourceItems.has(i.item)) {
-                isRelevant = true;
+            if (isRelevant(detailLookup.get(i.item), sourceItems)) {
+                isItemRelevant = true;
                 break;
             }
         }
-        if (isRelevant)
+        if (isItemRelevant)
             break;
     }
-    return isRelevant;
+    return isItemRelevant;
 }
 function createPartial(item) {
     const main = document.createElement("div");

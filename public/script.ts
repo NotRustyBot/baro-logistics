@@ -72,7 +72,7 @@ function fabricatableTrash(items: Set<string>, sourceItems: Set<string>) {
         } else {
             for (const is of item.fabricator) {
                 for (const i of is) {
-                    if (sourceItems.has(i.item)) {
+                    if (sourceItems.has(i.item) || items.has(i.item)) {
                         canUse = true;
                         break;
                     }
@@ -92,20 +92,21 @@ function fabricatableTrash(items: Set<string>, sourceItems: Set<string>) {
 }
 
 function isRelevant(item: ItemDetail, sourceItems: Set<string>) {
-    let isRelevant = false;
+    if(item == undefined) return false;
+    let isItemRelevant = false;
     if (sourceItems.has(item.item)) {
         return true;
     }
     for (const is of item.fabricator) {
         for (const i of is) {
-            if (sourceItems.has(i.item)) {
-                isRelevant = true;
+            if (isRelevant(detailLookup.get(i.item), sourceItems)) {
+                isItemRelevant = true;
                 break;
             }
         }
-        if (isRelevant) break;
+        if (isItemRelevant) break;
     }
-    return isRelevant;
+    return isItemRelevant;
 }
 
 function createPartial(item: ItemDetail) {

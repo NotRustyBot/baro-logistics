@@ -93,7 +93,7 @@ img {
     margin-top: 5px;
 }
 
-.or{
+.or {
     position: relative;
 }
 .or::after {
@@ -101,7 +101,7 @@ img {
     left: -28px;
     bottom: 50%;
     transform: translate(0, 50%);
-    content: 'OR';
+    content: "OR";
 }
 
 a {
