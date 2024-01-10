@@ -1,13 +1,20 @@
 import fs from "fs";
 import { Cheerio, CheerioAPI, Element, load } from "cheerio";
 
-async function getAllItems() {
-    const html = await (await fetch("https://barotraumagame.com/wiki/Items")).text();
+async function addFromPage(objs: Set<string>, url: string) {
+    const html = await (await fetch(url)).text();
     const $ = load(html);
-    const objs = new Set<string>();
-    $('table tbody tr td ul li a').each((i, el) => {
-        objs.add( el.attribs["href"]);
+    $(".mw-category-group a").each((i, el) => {
+        objs.add(el.attribs["href"]);
     });
+}
+
+async function getAllItems() {
+    const objs = new Set<string>();
+    await addFromPage(objs, "https://barotraumagame.com/baro-wiki/index.php?title=Category:Items&pageuntil=Harmonica#mw-pages");
+    await addFromPage(objs, "https://barotraumagame.com/baro-wiki/index.php?title=Category:Items&pageuntil=Thermal+Goggles#mw-pages");
+    await addFromPage(objs, "https://barotraumagame.com/baro-wiki/index.php?title=Category:Items&pagefrom=Thermal+Goggles#mw-pages");
+
     fs.writeFileSync("itemList.json", JSON.stringify([...objs]));
 }
 
