@@ -163,7 +163,7 @@ function recursiveTrash(item, specifiedItems, parent, allTrash) {
     if ("count" in item == false) {
         item.count = item.quantity;
     }
-    text.innerText = item.name + " x" + item.count;
+    text.innerText = item.name + " x" + item.count + ((item.count >= item.quantity) ? "" : ` (+${item.quantity - item.count})`);
     parent.appendChild(elm);
     if (specifiedItems.has(item.name))
         return;
@@ -191,7 +191,7 @@ function recursiveTrash(item, specifiedItems, parent, allTrash) {
         cPrice += tpr;
         totalGain += tgain;
     }
-    price.innerText = item.price * item.quantity - cPrice + "mk";
+    price.innerText = Math.floor(item.price * item.quantity - cPrice) + "mk";
     if (item.price * item.quantity - cPrice < 0) {
         price.classList.add("bad");
     }
